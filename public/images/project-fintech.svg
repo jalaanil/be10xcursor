@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" fill="none">
+  <rect width="800" height="500" fill="#E8EAF6"/>
+  <rect x="60" y="80" width="280" height="340" rx="24" fill="#FFFFFF" stroke="#5C6BC0" stroke-width="2"/>
+  <rect x="80" y="120" width="240" height="16" rx="8" fill="#C5CAE9"/>
+  <rect x="80" y="160" width="200" height="12" rx="6" fill="#E8EAF6"/>
+  <rect x="80" y="190" width="220" height="12" rx="6" fill="#E8EAF6"/>
+  <rect x="80" y="260" width="240" height="48" rx="12" fill="#5C6BC0"/>
+  <circle cx="520" cy="200" r="80" fill="#5C6BC0" opacity="0.2"/>
+  <rect x="420" y="300" width="320" height="120" rx="16" fill="#FFFFFF" stroke="#5C6BC0" stroke-width="2"/>
+  <text x="400" y="470" text-anchor="middle" fill="#5C6BC0" font-family="Arial, sans-serif" font-size="18" font-weight="600">Fintech Onboarding</text>
+</svg>
