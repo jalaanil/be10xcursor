@@ -46,7 +46,7 @@ export interface NavItem {
 }
 
 export const profile: Profile = {
-  name: "Alex Morgan",
+  name: "Anil Jala",
   title: "Product Designer",
   tagline: "Crafting intuitive digital experiences for 5+ years.",
   bio: "I'm a Product Designer with five years of experience shaping user-centered products across fintech, healthcare, and e-commerce. I bridge research, strategy, and visual craft to help teams ship experiences that feel effortless.",
@@ -131,7 +131,7 @@ export const socialLinks: SocialLink[] = [
 ];
 
 export const contact: ContactInfo = {
-  email: "alex.morgan@example.com",
+  email: "jalaanil@gmail.com",
   heading: "Let's work together",
   subheading:
     "Have a project in mind or want to discuss a role? Send a message — I typically respond within 2 business days.",

@@ -49,16 +49,17 @@ export default function Contact() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
-  const [submitError, setSubmitError] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
     setErrors((prev) => ({ ...prev, [field]: undefined }));
     setSubmitted(false);
-    setSubmitError(false);
+    setSubmitError("");
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const validationErrors = validate(form);
     if (Object.keys(validationErrors).length > 0) {
@@ -66,17 +67,33 @@ export default function Contact() {
       return;
     }
 
-    const subject = encodeURIComponent(`Portfolio inquiry from ${form.name.trim()}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name.trim()}\nEmail: ${form.email.trim()}\n\n${form.message.trim()}`,
-    );
+    setIsSubmitting(true);
+    setSubmitError("");
 
     try {
-      window.location.href = `mailto:${contact.email}?subject=${subject}&body=${body}`;
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          message: form.message.trim(),
+        }),
+      });
+
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        setSubmitError(data.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+
       setSubmitted(true);
       setForm(initialForm);
     } catch {
-      setSubmitError(true);
+      setSubmitError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -112,12 +129,12 @@ export default function Contact() {
                 <Stack spacing={3}>
                   {submitted && (
                     <Alert severity="success">
-                      Thank you! Your email client should open with your message ready to send.
+                      Thank you! Your message has been sent. I&apos;ll get back to you soon.
                     </Alert>
                   )}
                   {submitError && (
                     <Alert severity="error">
-                      Something went wrong. Please email me directly at {contact.email}.
+                      {submitError} You can also email me directly at {contact.email}.
                     </Alert>
                   )}
 
@@ -151,8 +168,14 @@ export default function Contact() {
                     error={Boolean(errors.message)}
                     helperText={errors.message}
                   />
-                  <Button type="submit" variant="contained" size="large" endIcon={<SendIcon />}>
-                    Send message
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="large"
+                    endIcon={<SendIcon />}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Sending..." : "Send message"}
                   </Button>
                 </Stack>
               </Box>
